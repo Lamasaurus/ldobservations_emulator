@@ -11,6 +11,10 @@ function getRandomColor() {
   return color;
 }
 
+function getRandomCount() {
+  return Math.floor(Math.random() * 100)
+}
+
 function getUpdateForUri(uri) {
   var now = moment().format();                          // 2018-02-26T14:44:51+01:00
   // Context is an observation of a crossroad at a certain time
@@ -24,35 +28,20 @@ function getUpdateForUri(uri) {
       "statusLight": "http://example.org/statusLight",
       "TrafficLight": "http://example.org/TrafficLight",
       "color": "http://example.org/color",
-      "crossRoad": "http://example.org/crossRoad",
-      "about": "http://www.w3.org/1999/02/22-rdf-syntax-ns#about"
+      "about": "http://www.w3.org/1999/02/22-rdf-syntax-ns#about",
+      "longitude": "http://www.w3.org/2003/01/geo/wgs84_pos#long",
+      "latitude": "http://www.w3.org/2003/01/geo/wgs84_pos#lat"
     },
     "@id": context,
     "generatedAt": now,
-    "@type": [
-      "http://www.w3.org/ns/prov#Bundle",
-      "http://www.w3.org/ns/prov#Entity"],
+    "@type": ["http://www.w3.org/ns/prov#Entity", "TrafficLight"],
     "about": uri,
-    "@graph":
-    [
-      {
-        "@id": "http://example.org/light/1",
-        "@type": "TrafficLight",
-        "statusLight": "http://example.org/status#green",
-        "color": getRandomColor()
-      },
-      {
-        "@id": "http://example.org/light/2",
-        "@type": "TrafficLight",
-        "statusLight": "http://example.org/status#green",
-        "color": getRandomColor()
-      },
-    ]
+    "statusLight": "http://example.org/status#green",
+    "color": getRandomColor(),
+    "count": getRandomCount(),
   }
 }
 setInterval(function(){ 
 console.log(JSON.stringify(getUpdateForUri("http://data.observer.be/verkeerslichten/1")));
 console.log(JSON.stringify(getUpdateForUri("http://data.observer.be/verkeerslichten/2")));
 }, 3000);
-
-
